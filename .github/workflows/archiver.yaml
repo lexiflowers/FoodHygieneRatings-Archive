@@ -2,10 +2,9 @@ name: FSA Ratings Data Archiver
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   # Allow manual trigger for testing
   workflow_dispatch:
-
 
 permissions:
   contents: write
@@ -14,16 +13,16 @@ jobs:
   download-artifact:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Download File
-      run: |
-        curl https://safhrsprodstorage.blob.core.windows.net/opendatafileblobstorage/FHRS_All_en-GB.csv --output ./FHRS_All_en-GB.csv
-      working-directory: ${{ github.workspace }}
-    - name: Commit and Push Changes
-      run: |
-        git config --global user.name "${{ github.actor }}"
-        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-  
-        git add FHRS_All_en-GB.csv
-        git commit -m 'Fetch FHRS_All_en-GB.csv for $(date)' || git commit --allow-empty -m 'No changes for $(date)'
-        git push
+      - uses: actions/checkout@v4
+      - name: Download File
+        run: |
+          curl https://safhrsprodstorage.blob.core.windows.net/opendatafileblobstorage/FHRS_All_en-GB.csv --output ./FHRS_All_en-GB.csv
+        working-directory: ${{ github.workspace }}
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+          git add FHRS_All_en-GB.csv
+          git commit -m "Fetch FHRS_All_en-GB.csv for $(date)" || git commit --allow-empty -m "No changes for $(date)"
+          git push
